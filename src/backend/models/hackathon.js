@@ -4,7 +4,7 @@ const { Club } = require("./club.js");
 
 // Hackathon Schema
 Hackathon = sequelize.define("Hackathon", {
-  id: {
+  hackathon_id: {
     type: DataTypes.INTEGER,
     allowNull: false,
     primaryKey: true,
