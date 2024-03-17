@@ -42,7 +42,7 @@ const patchHackathon = asyncHandler(async (req, res) => {
   //	hackathon_id : ,
   //	and other attributes ...
   // }
-  const hackathon = await Hackathon.findByPk(req.body.hackathon_id);
+  const hackathon = await Hackathon.findByPk(req.body.id);
   if (!hackathon) {
     await Hackathon.create(req.body);
     return res.status(201).json({
