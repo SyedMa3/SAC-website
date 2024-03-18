@@ -11,6 +11,7 @@ const {
 
 router.get("/", getAllHackathons);
 router.get("hackathon/:id", getSingleHackathon);
+router.get("hackathon/:id/teams/", getHackathonTeams);
 router.post("/hackathon/create", postHackathon);
 router.patch("hackathon/:id/update", patchHackathon)
 router.delete("hackathon/:id/delete", deleteHackathon)

@@ -1,5 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const { Hackathon } = require("../models/hackathon");
+const { Hackathon_team } = require("../models/hackathon_team");
+
 
 // to get all hackathon
 const getAllHackathons = asyncHandler(async (req, res) => {
@@ -27,6 +29,23 @@ const getSingleHackathon = asyncHandler(async (req, res) => {
   return res.json(row);
 });
 
+// to get all team participating in hackathon
+const getHackathonTeams = asyncHandler(async (req, res) => {
+  const { id: hackathonID } = req.params;
+  const rows = await Hackathon_team.findAll(
+    include: {
+      model: RelatedModel, 
+      where: {hackathon_id: hackathonID},
+    },
+  );
+  if (!rows) {
+    return res.status(204).json({
+      msg: `No rows in the table`,
+    });
+  }
+  res.json(rows);
+});
+
 const postHackathon = asyncHandler(async (req, res) => {
   // assuming the details to put is present in req.body
   const hackathon = await Hackathon.create(req.body);
@@ -46,7 +65,7 @@ const patchHackathon = asyncHandler(async (req, res) => {
   if (!hackathon) {
     await Hackathon.create(req.body);
     return res.status(201).json({
-      msg: `hackathon with given hackathon_id, didn't exist, hence created hackathon`,
+      msg: `hackathon with given id, didn't exist, hence created hackathon`,
     });
   }
   if (hackathon == req.body) {
