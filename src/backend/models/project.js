@@ -2,6 +2,7 @@ const { DataTypes } = require("sequelize");
 const { sequelize } = require("./database.js");
 const { User } = require("./user.js");
 const { Club } = require("./club.js");
+const { Team } = require("./team.js");
 
 // Project Schema
 Project = sequelize.define("Project", {
@@ -22,6 +23,10 @@ Project = sequelize.define("Project", {
 			model: "club",
 			key: "id",
 		},
+	},
+	is_hackathon: {
+		type: DataTypes.BOOL,
+		allowNull: false,
 	},
 	project_lead_id: {
 		type: DataTypes.INTEGER,
@@ -49,6 +54,13 @@ Club.hasMany(Project, {
 });
 Project.belongsTo(Club, {
 	foreignKey: "club_id",
+});
+
+Team.hasOne(Project, {
+	foreignKey: "project_id",
+});
+Project.belongsTo(Team, {
+	foreignKey: "project_id",
 });
 
 module.exports = Project;

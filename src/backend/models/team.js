@@ -1,16 +1,15 @@
 const { DataTypes } = require("sequelize");
 const { sequelize } = require("./database.js");
-const { Hackathon } = require("./hackathon.js");
-// const { Hackathon_team_member } = require("./Hackathon_team_member.js");
+const { Project } = require("./project.js");
 
 // Team Schema
-Hackathon_team = sequelize.define("Hackathon_team", {
-	hackathon_id: {
+Team = sequelize.define("Team", {
+	project_id: {
 		type: DataTypes.INTEGER,
 		allowNull: false,
 		references: {
-			model: "hackathon",
-			key: "hackathon_id",
+			model: "project",
+			key: "project_id",
 		},
 	},
 	team_id: {
@@ -42,7 +41,7 @@ Hackathon_team = sequelize.define("Hackathon_team", {
     indexes: [
       {
         unique: true,
-        fields: ["hackathon_id", "team_id"],
+        fields: ["project_id", "team_id"],
         primaryKey: true,
       },
     ],
@@ -50,26 +49,27 @@ Hackathon_team = sequelize.define("Hackathon_team", {
 });
 
 // Define hooks for updating timestamps
-Hackathon_team.addHook('beforeCreate', (hackathon) => {
+Team.addHook('beforeCreate', (team) => {
     hackathon.created_at = new Date();
     hackathon.updated_at = new Date();
 });
 
-Hackathon_team.addHook('beforeUpdate', (hackathon) => {
+Team.addHook('beforeUpdate', (hackathon) => {
     hackathon.updated_at = new Date();
 });
 
-Hackathon.hasMany(Hackathon_team, {
-	foreignKey: "hackathon_id",
+Project.hasMany(Team, {
+	foreignKey: "project_id",
 });
-Hackathon_team.belongsTo(Hackathon, {
-	foreignKey: "hackathon_id",
+Team.belongsTo(Project, {
+	foreignKey: "project_id",
 });
-//Hackathon_team_member.hasOne(Hackathon_team, {
-//	foreignKey: "team_id",
-//});
-//Hackathon_team.belongsTo(Hackathon_team_member, {
-//	foreignKey: "team_id",
-//});
 
-module.exports = { Hackathon_team };
+Team_Member.hasOne(Team, {
+	foreignKey: "team_id",
+});
+Team.belongsTo(Team_Member, {
+	foreignKey: "team_id",
+});
+
+module.exports = { Team };

@@ -1,9 +1,9 @@
 const { DataTypes } = require("sequelize");
 const { sequelize } = require("./database.js");
-const { Hackathon_team } = require("./hackathon_team.js");
+const { Team } = require("./team.js");
 const { User } = require("./user.js");
 
-Hackathon_team_member = sequelize.define("Hackathon_team_member",{
+Team_Member = sequelize.define("Team_Member",{
     team_id: {
       type: DataTypes.INTEGER,
     },
@@ -26,10 +26,10 @@ Hackathon_team_member = sequelize.define("Hackathon_team_member",{
   }
 );
 
-Hackathon_team.hasMany(Hackathon_team_member, { foreignKey: "team_id" });
-Hackathon_team_member.belongsTo(Hackathon_team, { foreignKey: "team_id" });
+Team.hasMany(Team_Member, { foreignKey: "team_id" });
+Team_Member.belongsTo(Team, { foreignKey: "team_id" });
 
-User.hasMany(Hackathon_team_member, { foreignKey: "user_id" });
-Hackathon_team_member.belongsTo(User, { foreignKey: "user_id" });
+User.hasMany(Team_Member, { foreignKey: "user_id" });
+Team_Member.belongsTo(User, { foreignKey: "id" });
 
-module.exports = { Hackathon_team_member };
+module.exports = { Team_Member };
