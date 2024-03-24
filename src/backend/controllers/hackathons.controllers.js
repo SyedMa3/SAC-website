@@ -16,7 +16,6 @@ const getAllHackathons = asyncHandler(async (req, res) => {
 
 // to get a hackathon by id
 const getSingleHackathon = asyncHandler(async (req, res) => {
-  // getting the id from params and storing it as hackathonID
   const { id: hackathonID } = req.params;
 
   const row = await Hackathon.findByPk(hackathonID);
@@ -29,21 +28,35 @@ const getSingleHackathon = asyncHandler(async (req, res) => {
   return res.json(row);
 });
 
-// to get all team participating in hackathon
 const getHackathonTeams = asyncHandler(async (req, res) => {
   const { id: hackathonID } = req.params;
-  const rows = await Hackathon_team.findAll(
-    include: {
-      model: RelatedModel, 
-      where: {hackathon_id: hackathonID},
-    },
-  );
-  if (!rows) {
+
+  const projects = await Project.findAll({
+    where: { hackathon_id: hackathonID },
+    attributes: ['project_id'] 
+  });
+
+  if (!projects.length) {
     return res.status(204).json({
-      msg: `No rows in the table`,
+      msg: `No projects found for the given hackathon ID`,
     });
   }
-  res.json(rows);
+
+  const projectIDs = projects.map(project => project.project_id);
+
+  const teams = await Team.findAll({
+    where: {
+      project_id: projectIDs
+    },
+  });
+
+  if (!teams.length) {
+    return res.status(204).json({
+      msg: `No teams found for the given projects`,
+    });
+  }
+
+  res.json(teams);
 });
 
 const postHackathon = asyncHandler(async (req, res) => {
@@ -101,6 +114,7 @@ const deleteHackathon = asyncHandler(async (req, res) => {
 module.exports = {
   getAllHackathons,
   getSingleHackathon,
+  getHackathonTeams
   postHackathon,
   patchHackathon,
   deleteHackathon,
