@@ -1,6 +1,7 @@
 const { DataTypes } = require("sequelize");
 const { sequelize } = require("./database.js");
 const { Club } = require("./club.js");
+const { Project } = require("./project.js");
 
 // Hackathon Schema
 Hackathon = sequelize.define("Hackathon", {
@@ -10,17 +11,6 @@ Hackathon = sequelize.define("Hackathon", {
     primaryKey: true,
     autoIncrement: true,
   },
-	hackathon_name: {
-		type: DataTypes.STRING,
-		allowNull: false,
-	},
-  link : {
-    type: DataTypes.STRING, 
-    allowNull: false, 
-    validate: {
-      isURL: true
-    }
-  },
 	club_id: {
 		type: DataTypes.INTEGER,
 		allowNull: false,
@@ -28,6 +18,10 @@ Hackathon = sequelize.define("Hackathon", {
 			model: "club",
 			key: "id",
 		},
+	},
+	hackathon_name: {
+		type: DataTypes.STRING,
+		allowNull: false,
 	},
 	hackathon_start_date: {
 		type: DataTypes.DATE,
@@ -44,6 +38,12 @@ Club.hasMany(Hackathon, {
 });
 Hackathon.belongsTo(Club, {
 	foreignKey: "club_id",
+});
+Project.hasOne(Hackathon, {
+	foreignKey: "hackathon_id",
+});
+Hackathon.belongsTo(Project, {
+	foreignKey: "hackathon_id",
 });
 
 module.exports = Hackathon;

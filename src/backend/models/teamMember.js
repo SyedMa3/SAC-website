@@ -3,7 +3,10 @@ const { sequelize } = require("./database.js");
 const { Team } = require("./team.js");
 const { User } = require("./user.js");
 
-Team_Member = sequelize.define("Team_Member",{
+TeamMember = sequelize.define("teamMember",{
+    project_id: {
+      type: DataTypes.INTEGER,
+    },
     team_id: {
       type: DataTypes.INTEGER,
     },
@@ -26,10 +29,13 @@ Team_Member = sequelize.define("Team_Member",{
   }
 );
 
-Team.hasMany(Team_Member, { foreignKey: "team_id" });
-Team_Member.belongsTo(Team, { foreignKey: "team_id" });
+Team.hasMany(TeamMember, { foreignKey: "team_id" });
+TeamMember.belongsTo(Team, { foreignKey: "team_id" });
 
-User.hasMany(Team_Member, { foreignKey: "user_id" });
-Team_Member.belongsTo(User, { foreignKey: "id" });
+Team.hasMany(TeamMember, { foreignKey: "project_id" });
+TeamMember.belongsTo(Team, { foreignKey: "project_id" });
 
-module.exports = { Team_Member };
+User.hasMany(TeamMember, { foreignKey: "user_id" });
+TeamMember.belongsTo(User, { foreignKey: "id" });
+
+module.exports = { TeamMember };
