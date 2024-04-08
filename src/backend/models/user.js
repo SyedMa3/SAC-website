@@ -35,18 +35,15 @@ User = sequelize.define("User", {
   },
   role: {
     type: DataTypes.ENUM({
-      values: [ 'Admin', 'Secretary', 'Club Head', 'Student']
+      values: ["Admin", "Secretary", "Club Head", "Student"],
     }),
-    defaultValue: 'Student',
+    defaultValue: "Student",
     allowNull: false,
   },
 });
 
 Base_profile.hasOne(User, { foreignKey: "base_profile_id" });
 User.belongsTo(Base_profile, { foreignKey: "base_profile_id" });
-
-Project.hasOne(User, { foreignKey: "id" });
-User.belongsTo(Project, { foreignKey: "project_lead_id" });
 
 Team.hasOne(User, { foreignKey: "id" });
 User.belongsTo(Team, { foreignKey: "team_lead_id" });

@@ -59,6 +59,8 @@ Team = sequelize.define("Team", {
 // Team.addHook("beforeUpdate", (hackathon) => {
 //   hackathon.updated_at = new Date();
 // });
+//
+// -------------------------------------CHECKPOINT--------------------------
 
 Team.belongsTo(Project, {
   foreignKey: "project_id",
