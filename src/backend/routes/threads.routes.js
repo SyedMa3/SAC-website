@@ -6,8 +6,12 @@ const {
   fetchThreadById,
 } = require("../controllers/threads.controllers");
 
-router.route("/").get(fetchAllThreads);
+const {
+  isLoggedIn, authRole
+} = require("../controllers/auth.controllers");
 
-router.route("/:id").get(fetchThreadById);
+router.route("/").get(fetchAllThreads,isLoggedIn,authRole(["Admin"]));
+
+router.route("/:id").get(fetchThreadById,isLoggedIn);
 
 module.exports = router;
