@@ -21,7 +21,8 @@ Club = sequelize.define("Club", {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  councilId: { // Add a new column for the foreign key
+  councilId: {
+    // Add a new column for the foreign key
     type: DataTypes.INTEGER,
     allowNull: true,
   },
@@ -30,6 +31,5 @@ Club = sequelize.define("Club", {
 Club.belongsTo(Base_profile, { foreignKey: "id" });
 Club.belongsTo(Council, { foreignKey: "councilId" });
 Council.hasMany(Club);
-
 
 module.exports = { Club };

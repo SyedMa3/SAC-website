@@ -32,9 +32,9 @@ User = sequelize.define("User", {
   },
   role: {
     type: DataTypes.ENUM({
-      values: [ 'Admin', 'Secretary', 'Club Head', 'Student']
+      values: ["Admin", "Secretary", "Club Head", "Student"],
     }),
-    defaultValue: 'Student',
+    defaultValue: "Student",
     allowNull: false,
   },
 });
