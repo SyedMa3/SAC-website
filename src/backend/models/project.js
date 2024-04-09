@@ -2,7 +2,6 @@ const { DataTypes } = require("sequelize");
 const { sequelize } = require("./database.js");
 const { User } = require("./user.js");
 const { Club } = require("./club.js");
-const { Team } = require("./team.js");
 const { Hackathon } = require("./hackathon.js");
 
 // Project Schema

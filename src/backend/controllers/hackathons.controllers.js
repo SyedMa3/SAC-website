@@ -1,14 +1,14 @@
 const asyncHandler = require("express-async-handler");
 const { Hackathon } = require("../models/hackathon");
-const { Hackathon_team } = require("../models/hackathon_team");
-
+const { Project } = require("../models/project");
+const { Team } = require("../models/team");
 
 // to get all hackathon
 const getAllHackathons = asyncHandler(async (req, res) => {
   const rows = await Hackathon.findAll();
   if (!rows) {
     return res.status(204).json({
-      msg: `No rows in the table`,
+      msg: `No rows in Hackathon relation. `,
     });
   }
   res.json(rows);
@@ -21,7 +21,7 @@ const getSingleHackathon = asyncHandler(async (req, res) => {
   const row = await Hackathon.findByPk(hackathonID);
   if (!row) {
     return res.status(204).json({
-      msg: "Requested id not found",
+      msg: "Requested hackathon not found",
     });
   }
 
@@ -32,7 +32,10 @@ const getHackathonTeams = asyncHandler(async (req, res) => {
   const { id: hackathonID } = req.params;
 
   const projects = await Project.findAll({
-    where: { hackathon_id: hackathonID },
+    where: {
+      is_hackathon = true,
+      hackathon_id = id,
+    },
     attributes: ['project_id'] 
   });
 
@@ -59,6 +62,7 @@ const getHackathonTeams = asyncHandler(async (req, res) => {
   res.json(teams);
 });
 
+// post a hackathon 
 const postHackathon = asyncHandler(async (req, res) => {
   // assuming the details to put is present in req.body
   const hackathon = await Hackathon.create(req.body);
@@ -114,7 +118,7 @@ const deleteHackathon = asyncHandler(async (req, res) => {
 module.exports = {
   getAllHackathons,
   getSingleHackathon,
-  getHackathonTeams
+  getHackathonTeams, 
   postHackathon,
   patchHackathon,
   deleteHackathon,

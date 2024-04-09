@@ -1,6 +1,6 @@
-const { DataTypes } = require("sequelize");
-const { sequelize } = require("./database.js");
-const { Base_profile } = require("./base_profile.js");
+import { DataTypes } from "sequelize";
+import { sequelize } from "./database.js";
+import { Base_profile } from "./base_profile.js";
 
 User = sequelize.define("User", {
   id: {
@@ -42,4 +42,4 @@ User = sequelize.define("User", {
 Base_profile.hasOne(User, { foreignKey: "base_profile_id" });
 User.belongsTo(Base_profile, { foreignKey: "base_profile_id" });
 
-module.exports = { User };
+export default { User };
