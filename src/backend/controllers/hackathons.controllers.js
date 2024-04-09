@@ -33,10 +33,10 @@ const getHackathonTeams = asyncHandler(async (req, res) => {
 
   const projects = await Project.findAll({
     where: {
-      is_hackathon = true,
-      hackathon_id = id,
+      is_hackathon: true,
+      hackathon_id: hackathonID,
     },
-    attributes: ['project_id'] 
+    attributes: ["project_id"],
   });
 
   if (!projects.length) {
@@ -45,11 +45,11 @@ const getHackathonTeams = asyncHandler(async (req, res) => {
     });
   }
 
-  const projectIDs = projects.map(project => project.project_id);
+  const projectIDs = projects.map((project) => project.project_id);
 
   const teams = await Team.findAll({
     where: {
-      project_id: projectIDs
+      project_id: projectIDs,
     },
   });
 
@@ -62,7 +62,7 @@ const getHackathonTeams = asyncHandler(async (req, res) => {
   res.json(teams);
 });
 
-// post a hackathon 
+// post a hackathon
 const postHackathon = asyncHandler(async (req, res) => {
   // assuming the details to put is present in req.body
   const hackathon = await Hackathon.create(req.body);
@@ -118,7 +118,7 @@ const deleteHackathon = asyncHandler(async (req, res) => {
 module.exports = {
   getAllHackathons,
   getSingleHackathon,
-  getHackathonTeams, 
+  getHackathonTeams,
   postHackathon,
   patchHackathon,
   deleteHackathon,
