@@ -2,8 +2,6 @@ const { DataTypes } = require("sequelize");
 const { sequelize } = require("./database.js");
 const { Council } = require("./council.js");
 const { Base_profile } = require("./base_profile.js");
-const { Hackathon } = require("./hackathon.js");
-const { Project } = require("./project.js");
 
 Club = sequelize.define("Club", {
   id: {

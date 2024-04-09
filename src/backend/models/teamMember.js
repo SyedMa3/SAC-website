@@ -3,31 +3,33 @@ const { sequelize } = require("./database.js");
 const { Team } = require("./team.js");
 const { User } = require("./user.js");
 
-TeamMember = sequelize.define("teamMember",{
-    project_id: {
-      type: DataTypes.INTEGER,
-    },
-    team_id: {
-      type: DataTypes.INTEGER,
-    },
-    user_id: {
-      type: DataTypes.INTEGER,
-    },
-    joined_at: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
+TeamMember = sequelize.define("teamMember", {
+  project_id: {
+    type: DataTypes.INTEGER,
+    references: {
+      model: "team",
+      key: "project_id",
     },
   },
-  {
-    indexes: [
-      {
-        unique: true,
-        fields: ["team_id", "user_id"],
-        primaryKey: true,
-      },
-    ],
-  }
-);
+  team_id: {
+    type: DataTypes.INTEGER,
+    references: {
+      model: "team",
+      key: "team_id",
+    },
+  },
+  user_id: {
+    type: DataTypes.INTEGER,
+    references: {
+      model: "user",
+      key: "id",
+    },
+  },
+  joined_at: {
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW,
+  },
+});
 
 Team.hasMany(TeamMember, { foreignKey: "team_id" });
 TeamMember.belongsTo(Team, { foreignKey: "team_id" });

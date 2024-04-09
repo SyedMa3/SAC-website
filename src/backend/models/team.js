@@ -1,10 +1,8 @@
 const { DataTypes } = require("sequelize");
 const { sequelize } = require("./database.js");
 const { Project } = require("./project.js");
-const { teamMember } = require("./teamMember.js");
 const { User } = require("./user.js");
 
-// Team Schema
 Team = sequelize.define("Team", {
   project_id: {
     type: DataTypes.INTEGER,
@@ -68,14 +66,6 @@ Team.belongsTo(Project, {
 
 Team.belongsTo(User, {
   foreignKey: "team_lead_id",
-});
-
-Team.belongsTo(teamMember, {
-  foreignKey: "team_id",
-});
-
-Team.belongsTo(teamMember, {
-  foreignKey: "project_id",
 });
 
 module.exports = { Team };

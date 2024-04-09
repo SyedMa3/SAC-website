@@ -1,9 +1,6 @@
 const { DataTypes } = require("sequelize");
 const { sequelize } = require("./database.js");
 const { Base_profile } = require("./base_profile.js");
-const { Team } = require("./team.js");
-const { TeamMember } = require("./teamMember.js");
-const { Project } = require("./project.js");
 
 User = sequelize.define("User", {
   id: {
@@ -44,11 +41,5 @@ User = sequelize.define("User", {
 
 Base_profile.hasOne(User, { foreignKey: "base_profile_id" });
 User.belongsTo(Base_profile, { foreignKey: "base_profile_id" });
-
-Team.hasOne(User, { foreignKey: "id" });
-User.belongsTo(Team, { foreignKey: "team_lead_id" });
-
-TeamMember.hasOne(User, { foreignKey: "id" });
-User.belongsTo(TeamMember, { foreignKey: "user_id" });
 
 module.exports = { User };
