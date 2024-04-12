@@ -15,7 +15,21 @@ router.use("/threads", threadRoutes);
 router.use("/announcements", announcementRoutes);
 router.use("/clubs", clubRoutes);
 
+// Route handler for GET /home/announcements/public
+router.get('/home/announcements/public', async (req, res) => {
+    try {
+        // Fetch public announcements from the database
+        const announcements = await Announcement.findAll({
+            attributes: ['id', 'title', 'content', 'attachments'], // Specify the attributes to include in the response
+        });
 
+        // Send the fetched announcements as a response
+        res.json(announcements);
+    } catch (error) {
+        console.error('Error fetching public announcements:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
 // Route handler for GET /home/councils
 router.get('/home/councils', async (req, res) => {
     try {
